@@ -1,4 +1,3 @@
-
 <!doctype html>
 <html lang="en">
 <head>
@@ -103,25 +102,31 @@
     </section>
 
     <!-- Portfolio category destinations -->
-    <section class="section-pad" id="lifestyle-gallery">
+    <section class="section-pad gallery-section" id="lifestyle-gallery">
       <div class="section-kicker">02A / STREET · AUTOMOTIVE · EVERYDAY</div>
       <h2>LIFESTYLE<span class="orange">.</span></h2>
       <p>Street scenes, automotive photography, and everyday moments.</p>
-      <p class="gallery-note">Lifestyle photos will appear here when the gallery is connected.</p>
+      <div class="portfolio-grid" id="lifestyle-grid">
+        <p class="gallery-note">Loading Lifestyle photos...</p>
+      </div>
     </section>
 
-    <section class="section-pad" id="portrait-gallery">
+    <section class="section-pad gallery-section" id="portrait-gallery">
       <div class="section-kicker">02B / INDIVIDUAL · CREATIVE · PERSONAL</div>
       <h2>PORTRAIT<span class="orange">.</span></h2>
       <p>Portraits that capture personality, style, and individuality.</p>
-      <p class="gallery-note">Portrait photos will appear here when the gallery is connected.</p>
+      <div class="portfolio-grid" id="portrait-grid">
+        <p class="gallery-note">Loading Portrait photos...</p>
+      </div>
     </section>
 
-    <section class="section-pad" id="culture-gallery">
+    <section class="section-pad gallery-section" id="culture-gallery">
       <div class="section-kicker">02C / MUSIC · FASHION · EVENTS</div>
       <h2>CULTURE<span class="orange">.</span></h2>
       <p>Music, fashion, events, and culture through my lens.</p>
-      <p class="gallery-note">Culture photos will appear here when the gallery is connected.</p>
+      <div class="portfolio-grid" id="culture-grid">
+        <p class="gallery-note">Loading Culture photos...</p>
+      </div>
     </section>
 
     <section class="services-section section-pad" id="services">
@@ -227,19 +232,15 @@
   <script src="script.js"></script>
 
   <!-- Netlify Identity: keep the homepage separate from the photo manager. -->
-<script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
-<script>
-  if (window.netlifyIdentity) {
-    window.netlifyIdentity.on("init", user => {
-      // Do NOT force redirect here. Let users view the public site freely.
-      if (!user) {
-        window.netlifyIdentity.on("login", () => {
-          // Optional: only redirect to admin if they explicitly clicked login for the admin panel
-          // Or let them navigate to /admin/ manually.
-        });
-      }
-    });
-  }
-</script>
+  <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+  <script>
+    if (window.netlifyIdentity) {
+      window.netlifyIdentity.on("init", user => {
+        if (!user) {
+          window.netlifyIdentity.on("login", () => {});
+        }
+      });
+    }
+  </script>
 </body>
 </html>
