@@ -227,13 +227,19 @@
   <script src="script.js"></script>
 
   <!-- Netlify Identity: keep the homepage separate from the photo manager. -->
-  <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
-  <script>
-    if (window.netlifyIdentity) {
-      window.netlifyIdentity.on("login", function () {
-        window.location.href = "/admin/";
-      });
-    }
-  </script>
+<script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+<script>
+  if (window.netlifyIdentity) {
+    window.netlifyIdentity.on("init", user => {
+      // Do NOT force redirect here. Let users view the public site freely.
+      if (!user) {
+        window.netlifyIdentity.on("login", () => {
+          // Optional: only redirect to admin if they explicitly clicked login for the admin panel
+          // Or let them navigate to /admin/ manually.
+        });
+      }
+    });
+  }
+</script>
 </body>
 </html>
