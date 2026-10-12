@@ -60,3 +60,41 @@ document.addEventListener("DOMContentLoaded", async () => {
     console.warn("Portfolio JSON not available yet or build script pending.");
   }
 });
+// Handle Netlify Booking Form Submission via AJAX
+const bookingForm = document.querySelector('.booking-form');
+
+if (bookingForm) {
+  bookingForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    const submitBtn = bookingForm.querySelector('.submit-btn');
+    const originalBtnText = submitBtn.innerHTML;
+    submitBtn.innerHTML = 'SENDING... <span>⏳</span>';
+    submitBtn.disabled = true;
+
+    const formData = new FormData(bookingForm);
+
+    try {
+      const response = await fetch('/', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: new URLSearchParams(formData).toString()
+      });
+
+      if (response.ok) {
+        bookingForm.innerHTML = `
+          <div style="padding: 2rem; text-align: center; background: #171614; border: 1px solid #302a26;">
+            <h3 style="color: #ff6337; font-size: 2rem; margin-bottom: 0.5rem;">INQUIRY SENT! ✦</h3>
+            <p style="color: #ccc; font-size: 0.95rem;">Thanks for reaching out. I’ll review your details and get back to you soon.</p>
+          </div>
+        `;
+      } else {
+        throw new Error('Form submission failed');
+      }
+    } catch (error) {
+      alert('There was an issue sending your request. Please try emailing directly at Keemshotitbooking@gmail.com');
+      submitBtn.innerHTML = originalBtnText;
+      submitBtn.disabled = false;
+    }
+  });
+}
