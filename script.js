@@ -1,5 +1,7 @@
+// Mobile Menu Navigation Toggle
 const toggle = document.querySelector('.menu-toggle');
 const nav = document.querySelector('.nav-links');
+
 if (toggle && nav) {
   toggle.addEventListener('click', () => {
     const open = nav.classList.toggle('open');
@@ -7,13 +9,15 @@ if (toggle && nav) {
     toggle.setAttribute('aria-label', open ? 'Close navigation' : 'Open navigation');
     toggle.textContent = open ? '✕' : '☰';
   });
+
   nav.querySelectorAll('a').forEach(link => link.addEventListener('click', () => {
     nav.classList.remove('open');
     toggle.setAttribute('aria-expanded', 'false');
     toggle.textContent = '☰';
   }));
 }
-document.getElementById('year').textContent = new Date().getFullYear();
+
+// DOM Content Loaded Handler
 document.addEventListener("DOMContentLoaded", async () => {
   // Update footer year dynamically
   const yearEl = document.getElementById("year");
@@ -59,42 +63,43 @@ document.addEventListener("DOMContentLoaded", async () => {
   } catch (err) {
     console.warn("Portfolio JSON not available yet or build script pending.");
   }
-});
-// Handle Netlify Booking Form Submission via AJAX
-const bookingForm = document.querySelector('.booking-form');
 
-if (bookingForm) {
-  bookingForm.addEventListener('submit', async (e) => {
-    e.preventDefault();
+  // Handle Netlify Booking Form Submission via AJAX
+  const bookingForm = document.querySelector('.booking-form');
 
-    const submitBtn = bookingForm.querySelector('.submit-btn');
-    const originalBtnText = submitBtn.innerHTML;
-    submitBtn.innerHTML = 'SENDING... <span>⏳</span>';
-    submitBtn.disabled = true;
+  if (bookingForm) {
+    bookingForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
 
-    const formData = new FormData(bookingForm);
+      const submitBtn = bookingForm.querySelector('.submit-btn');
+      const originalBtnText = submitBtn.innerHTML;
+      submitBtn.innerHTML = 'SENDING... <span>⏳</span>';
+      submitBtn.disabled = true;
 
-    try {
-      const response = await fetch('/', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-        body: new URLSearchParams(formData).toString()
-      });
+      const formData = new FormData(bookingForm);
 
-      if (response.ok) {
-        bookingForm.innerHTML = `
-          <div style="padding: 2rem; text-align: center; background: #171614; border: 1px solid #302a26;">
-            <h3 style="color: #ff6337; font-size: 2rem; margin-bottom: 0.5rem;">INQUIRY SENT! ✦</h3>
-            <p style="color: #ccc; font-size: 0.95rem;">Thanks for reaching out. I’ll review your details and get back to you soon.</p>
-          </div>
-        `;
-      } else {
-        throw new Error('Form submission failed');
+      try {
+        const response = await fetch('/', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+          body: new URLSearchParams(formData).toString()
+        });
+
+        if (response.ok) {
+          bookingForm.innerHTML = `
+            <div style="padding: 2.5rem 1rem; text-align: center; background: #111; border: 1px solid #302a26;">
+              <h3 style="color: #ff6337; font-size: 2rem; margin-bottom: 0.5rem; font-family: 'Barlow Condensed', sans-serif;">INQUIRY SENT ✦</h3>
+              <p style="color: #aaa; font-size: 0.95rem; margin: 0; font-family: 'DM Sans', sans-serif;">Thanks for reaching out! I’ll review your details and get back to you soon.</p>
+            </div>
+          `;
+        } else {
+          throw new Error('Form submission failed');
+        }
+      } catch (error) {
+        alert('There was an issue sending your request. Please try emailing directly at Keemshotitbooking@gmail.com');
+        submitBtn.innerHTML = originalBtnText;
+        submitBtn.disabled = false;
       }
-    } catch (error) {
-      alert('There was an issue sending your request. Please try emailing directly at Keemshotitbooking@gmail.com');
-      submitBtn.innerHTML = originalBtnText;
-      submitBtn.disabled = false;
-    }
-  });
-}
+    });
+  }
+});
